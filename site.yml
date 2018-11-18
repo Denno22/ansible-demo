@@ -1,0 +1,25 @@
+- hosts: elasticsearch
+  tasks:
+  - name: open elasticsearch port
+    firewalld: port=9200/tcp permanent=true state=enabled
+  - name: reload firewall
+    command: firewall-cmd --reload
+  roles:
+  - geerlingguy.java
+  - geerlingguy.elasticsearch
+  tags:
+  - elasticsearch   
+
+- hosts: kibana
+  vars:
+    elasticsearch_network_host: "{{ elasticsearch_server }}"
+    kibana_elasticsearch_url: "http://{{ elasticsearch_server }}:9200"
+  tasks:
+  - name: open kibana port
+    firewalld: port=5601/tcp permanent=true state=enabled
+  - name: reload firewall
+    command: firewall-cmd --reload
+  roles:
+  - geerlingguy.kibana
+  tags:
+  - kibana  

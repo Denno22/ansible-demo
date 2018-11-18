@@ -1,0 +1,2 @@
+elasticsearch_server: 192.168.1.8
+kibana_server: 192.168.1.9
